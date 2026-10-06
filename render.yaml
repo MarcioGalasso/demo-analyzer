@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mousetrap-demo-analyzer
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: DEMO_ANALYZER_SECRET
+        sync: false
+      - key: NODE_ENV
+        value: production

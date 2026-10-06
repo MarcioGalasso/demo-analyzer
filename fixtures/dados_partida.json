@@ -1,0 +1,1604 @@
+[
+  {
+    "round": "Desconhecido",
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "elite",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": "Desconhecido",
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "R00Tq",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "tec9",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "famas",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "mp9",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 2,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 3,
+    "assassino": "R00Tq",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 4,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 4,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 4,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "inferno",
+    "headshot": "Não"
+  },
+  {
+    "round": 4,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 4,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "famas",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 5,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 6,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 7,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "inferno",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 8,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 9,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "Cavalcanti",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 10,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "Raf4Moon",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "GUS1",
+    "time_assassino": "TR",
+    "vitima": "th4natos",
+    "time_vitima": "CT",
+    "arma": "ssg08",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "vargao",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "TRYLUX",
+    "time_assassino": "TR",
+    "vitima": "vargao",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "AG crown",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 11,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "Raf4Moon",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "Cavalcanti",
+    "time_assassino": "CT",
+    "vitima": "R00Tq",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "TRYLUX",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "AG crown",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "t0matov",
+    "time_assassino": "CT",
+    "vitima": "GUS1",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 12,
+    "assassino": "Price.Bartell",
+    "time_assassino": "TR",
+    "vitima": "t0matov",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "th4natos",
+    "time_assassino": "CT",
+    "vitima": "Price.Bartell",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "t0matov",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 13,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "glock",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "mac10",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "mac10",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 14,
+    "assassino": "t0matov",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "mp7",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "ssg08",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "mp7",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 15,
+    "assassino": "t0matov",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 16,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "th4natos",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "th4natos",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 17,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "Price.Bartell",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 18,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "mp9",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "hegrenade",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 19,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "deagle",
+    "headshot": "Não"
+  },
+  {
+    "round": 20,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "usp_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 20,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 20,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 20,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 20,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "famas",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "mac10",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 21,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "galilar",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "th4natos",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "mac10",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "vargao",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 22,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "TRYLUX",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "t0matov",
+    "time_assassino": "TR",
+    "vitima": "GUS1",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "Price.Bartell",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "m4a1_silencer",
+    "headshot": "Não"
+  },
+  {
+    "round": 23,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "AG crown",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "m4a1",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "t0matov",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "Raf4Moon",
+    "time_assassino": "TR",
+    "vitima": "AG crown",
+    "time_vitima": "CT",
+    "arma": "mac10",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "R00Tq",
+    "time_assassino": "CT",
+    "vitima": "th4natos",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "Cavalcanti",
+    "time_assassino": "TR",
+    "vitima": "R00Tq",
+    "time_vitima": "CT",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "GUS1",
+    "time_assassino": "CT",
+    "vitima": "Raf4Moon",
+    "time_vitima": "TR",
+    "arma": "awp",
+    "headshot": "Não"
+  },
+  {
+    "round": 24,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "Cavalcanti",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  },
+  {
+    "round": 25,
+    "assassino": "TRYLUX",
+    "time_assassino": "CT",
+    "vitima": "vargao",
+    "time_vitima": "TR",
+    "arma": "ak47",
+    "headshot": "Não"
+  }
+]

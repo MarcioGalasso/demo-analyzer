@@ -1,0 +1,19 @@
+{
+  "name": "mousetrap-demo-analyzer",
+  "version": "1.0.0",
+  "description": "Worker Node que parseia demos CS2 com cs2parser para o painel MouseTrap",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "parse": "node src/parse-cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cs2parser": "^2.7.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  }
+}
