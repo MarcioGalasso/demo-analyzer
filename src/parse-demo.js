@@ -17,7 +17,8 @@ async function parseDemoFile(demoPath, opts = {}) {
   const frameIntervalSec = Number(opts.frameIntervalSec);
   const collectFrames = Number.isFinite(frameIntervalSec) && frameIntervalSec > 0;
   const intervalSec = collectFrames ? Math.max(1, frameIntervalSec) : 0;
-  const maxFrames = Math.max(100, Number(opts.maxFrames) || 600);
+  // ~1 frame/s em rounds vivos: partida longa cabe em ~2–3k amostras
+  const maxFrames = Math.max(100, Number(opts.maxFrames) || 2500);
 
   const parser = new DemoReader();
   const kills = [];
