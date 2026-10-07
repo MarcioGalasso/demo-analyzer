@@ -11,9 +11,9 @@ const { parseDemoFile } = require('./parse-demo');
 const app = express();
 const PORT = Number(process.env.PORT || 5055);
 const SECRET = process.env.DEMO_ANALYZER_SECRET || 'mousetrap-demo-secret';
-// 0 = desliga frames (recomendado no Render Free). Ex: 2 = 1 frame a cada 2s
-const FRAME_INTERVAL = Number(process.env.FRAME_INTERVAL_SEC ?? 0);
-const MAX_FRAMES = Number(process.env.MAX_FRAMES || 600);
+// 1 = mapa de calor. 0 = desliga (só se Free estourar RAM)
+const FRAME_INTERVAL = Number(process.env.FRAME_INTERVAL_SEC ?? 1);
+const MAX_FRAMES = Number(process.env.MAX_FRAMES || 2500);
 
 const uploadDir = path.join(__dirname, '../tmp');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });

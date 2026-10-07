@@ -9,3 +9,9 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
+      - key: FRAME_INTERVAL_SEC
+        value: "1"
+      - key: MAX_FRAMES
+        value: "2500"
+      - key: MAX_UPLOAD_MB
+        value: "800"
