@@ -19,13 +19,18 @@ O site na Locaweb chama este serviço. A URL fica estável, tipo:
 3. Configurações:
    - **Name:** `mousetrap-demo-analyzer`
    - **Root Directory:** `demo-analyzer` (se o repo for o projeto todo)
-   - **Runtime:** Docker (usa o Dockerfile)  
-     *ou* Node: Build `npm install` / Start `node src/server.js`
-   - **Instance type:** Free
+   - **Runtime:** Docker (usa o Dockerfile) — **Node 22 obrigatório** (`cs2parser`)
+     *ou* Native Node 22: Build `npm install` / Start `node src/server.js`
+   - **Instance type:** Free (ou Starter se quiser sem cold start)
 4. **Environment Variables:**
    - `DEMO_ANALYZER_SECRET` = `mousetrap-demo-secret` (ou outra senha forte)
+   - `FRAME_INTERVAL_SEC` = `1` (fase 1: 1 posição/segundo)
    - (PORT o Render define sozinho — não precisa criar)
 5. Create Web Service → espere o deploy (2–5 min)
+
+### Redeploy fase 1 (posições + kills + bomb)
+Depois de puxar o código novo no GitHub, no Render: **Manual Deploy → Deploy latest commit**.  
+No `/health` deve aparecer `"node":"v22.x.x"`. Se for v20, o parse fica instável (500).
 
 ### 3) Pegar a URL fixa
 No painel do serviço aparece algo como:
@@ -55,7 +60,13 @@ Salvar → em **Análise Demos** o pill deve ficar **Parser: online**.
 - A URL **não muda**
 - Depois de ~15 min sem uso o serviço “dorme”
 - A **primeira** análise após dormir pode demorar ~30–60s (acordar)
+- O admin agora chama `/health` em loop antes do upload (acordar automático)
+- **Locaweb compartilhada não roda Node** — o parser fica no Render/Railway/VPS
 - Se quiser sempre quente: plano pago do Render, Railway, ou VPS
+
+## Fase 1 (atual)
+O `/parse` devolve `kills` (com posições), `bomb_events`, `rounds` (`tick_start`) e `frames` (posição ~1/s).  
+Granadas / replay 2D completo = fase 2.
 
 ---
 

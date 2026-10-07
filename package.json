@@ -8,7 +8,7 @@
     "parse": "node src/parse-cli.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "dependencies": {
     "cs2parser": "^2.7.2",
