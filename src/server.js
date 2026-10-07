@@ -18,10 +18,17 @@ const MAX_FRAMES = Number(process.env.MAX_FRAMES || 600);
 const uploadDir = path.join(__dirname, '../tmp');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
+// Aceita "800", "800MB", etc. NaN → 800
+const MAX_UPLOAD_MB = (() => {
+  const raw = String(process.env.MAX_UPLOAD_MB || '800').replace(/[^\d]/g, '');
+  const n = parseInt(raw, 10);
+  return Number.isFinite(n) && n >= 50 ? n : 800;
+})();
 const upload = multer({
   dest: uploadDir,
-  limits: { fileSize: 300 * 1024 * 1024 },
+  limits: { fileSize: MAX_UPLOAD_MB * 1024 * 1024 },
 });
+console.log(`[boot] MAX_UPLOAD_MB=${MAX_UPLOAD_MB} FRAME_INTERVAL_SEC=${FRAME_INTERVAL}`);
 
 process.on('uncaughtException', (err) => {
   console.error('[uncaughtException]', err);
@@ -83,13 +90,22 @@ app.get('/health', (_req, res) => {
     memory_mb: Math.round(mem.rss / 1024 / 1024),
     frames_enabled: FRAME_INTERVAL > 0,
     frame_interval_sec: FRAME_INTERVAL,
+    max_upload_mb: MAX_UPLOAD_MB,
   });
 });
 
 app.post('/parse', auth, (req, res) => {
   upload.single('demo')(req, res, async (uploadErr) => {
     if (uploadErr) {
-      return sendJsonError(res, 400, 'Falha no upload do .dem: ' + uploadErr.message);
+      const code = uploadErr.code || '';
+      let msg = uploadErr.message || String(uploadErr);
+      if (code === 'LIMIT_FILE_SIZE' || /too large/i.test(msg)) {
+        msg =
+          `Arquivo .dem maior que o limite do parser (${MAX_UPLOAD_MB} MB). ` +
+          'Teste local com: node src/parse-cli.js sua-demo.dem — ou aumente MAX_UPLOAD_MB no Render.';
+      }
+      console.error('[parse] upload fail', code, msg);
+      return sendJsonError(res, 400, 'Falha no upload do .dem: ' + msg, code);
     }
     if (!req.file) {
       return sendJsonError(res, 400, 'Envie o arquivo .dem no campo "demo"');
