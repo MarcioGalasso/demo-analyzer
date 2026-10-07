@@ -3,25 +3,28 @@
 const { DemoReader, EntityMode } = require('cs2parser');
 
 /**
- * FASE 1 — Análise espacial básica
- * - kills (com pos_vitima + pos_assassino)
- * - rounds (tick_start / tick_end)
+ * FASE 1 — Análise espacial básica (estável no Render Free)
+ * - kills com pos_vitima / pos_assassino + round_time_sec
+ * - rounds com tick_start / tick_end
  * - bomb_events
- * - frames: posição de cada jogador ~1x/s (calor / fundo / soft side depois)
- *
- * Granadas / replay 2D completo = fase 2.
+ * - frames OPCIONAIS (desligados por padrão — estouravam RAM no Free)
  *
  * @param {string} demoPath
- * @param {{ frameIntervalSec?: number }} [opts]
+ * @param {{ frameIntervalSec?: number, maxFrames?: number }} [opts]
+ *   frameIntervalSec <= 0 → não coleta frames
  */
 async function parseDemoFile(demoPath, opts = {}) {
-  const frameIntervalSec = Math.max(0.5, Number(opts.frameIntervalSec) || 1);
+  const frameIntervalSec = Number(opts.frameIntervalSec);
+  const collectFrames = Number.isFinite(frameIntervalSec) && frameIntervalSec > 0;
+  const intervalSec = collectFrames ? Math.max(1, frameIntervalSec) : 0;
+  const maxFrames = Math.max(100, Number(opts.maxFrames) || 600);
+
   const parser = new DemoReader();
   const kills = [];
   const rounds = [];
   const bombEvents = [];
   const frames = [];
-  const roundStarts = {}; // round -> tick
+  const roundStarts = {};
 
   let currentRound = 0;
   let tick = 0;
@@ -29,6 +32,7 @@ async function parseDemoFile(demoPath, opts = {}) {
   let mapName = null;
   let lastFrameTick = -Infinity;
   let inRound = false;
+  let intervalTicks = 64; // atualizado depois; default 1s @ 64
 
   const teamLabel = (n) => {
     if (n === 2) return 'TR';
@@ -39,159 +43,180 @@ async function parseDemoFile(demoPath, opts = {}) {
   const roundCoord = (v) => (typeof v === 'number' && Number.isFinite(v) ? +v.toFixed(1) : null);
 
   const posOf = (entity) => {
-    const p = entity?.position;
-    if (!p) return null;
-    return { x: roundCoord(p.x), y: roundCoord(p.y), z: roundCoord(p.z) };
+    try {
+      const p = entity && entity.position;
+      if (!p) return null;
+      return { x: roundCoord(p.x), y: roundCoord(p.y), z: roundCoord(p.z) };
+    } catch (_) {
+      return null;
+    }
   };
 
   const bumpTick = () => {
-    if (typeof parser.currentTick === 'number' && parser.currentTick >= 0) {
-      tick = parser.currentTick;
-    }
+    try {
+      if (typeof parser.currentTick === 'number' && parser.currentTick >= 0) {
+        tick = parser.currentTick;
+      }
+    } catch (_) {}
   };
 
   const timeSec = () => +((tick || 0) / tickrate).toFixed(2);
 
-  const sampleFrame = () => {
-    bumpTick();
-    if (!inRound || currentRound < 1) return;
-
-    const intervalTicks = Math.max(1, Math.round(tickrate * frameIntervalSec));
-    if (tick - lastFrameTick < intervalTicks) return;
-    lastFrameTick = tick;
-
-    const players = [];
+  const safe = (fn) => {
     try {
-      for (const p of parser.playerControllers || []) {
-        if (!p || !p.name) continue;
-        const team = p.teamNumber;
-        if (team !== 2 && team !== 3) continue;
-        const pos = posOf(p);
-        if (!pos) continue;
-        players.push({
-          n: p.name,
-          t: teamLabel(team),
-          a: !!p.isAlive,
-          x: pos.x,
-          y: pos.y,
-          z: pos.z,
-        });
-      }
-    } catch (_) {
-      return;
+      fn();
+    } catch (err) {
+      console.warn('[parse] listener error:', err && err.message ? err.message : err);
     }
-
-    if (players.length === 0) return;
-
-    frames.push({
-      r: currentRound,
-      t: tick,
-      s: timeSec(),
-      p: players,
-    });
   };
 
-  parser.on('tickend', (t) => {
-    tick = typeof t === 'number' ? t : (t?.tick ?? tick);
-    sampleFrame();
-  });
+  // Frames: só se habilitado. Não roda lógica pesada em todo tick.
+  if (collectFrames) {
+    intervalTicks = Math.max(16, Math.round(64 * intervalSec));
+    parser.on('tickend', (t) => {
+      safe(() => {
+        tick = typeof t === 'number' ? t : (t && t.tick != null ? t.tick : tick);
+        if (!inRound || currentRound < 1) return;
+        if (frames.length >= maxFrames) return;
+        if (tick - lastFrameTick < intervalTicks) return;
+        lastFrameTick = tick;
 
-  parser.gameEvents.on('round_start', () => {
-    bumpTick();
-    currentRound += 1;
-    inRound = true;
-    lastFrameTick = -Infinity;
-    roundStarts[currentRound] = tick;
-  });
-
-  parser.gameEvents.on('round_end', (event) => {
-    bumpTick();
-    inRound = false;
-    const winnerNum = event.winner ?? event.winnerTeam ?? null;
-    const rn = currentRound || rounds.length + 1;
-    rounds.push({
-      round: rn,
-      winner: teamLabel(winnerNum),
-      winner_num: winnerNum,
-      reason: event.reason ?? null,
-      tick_start: roundStarts[rn] ?? null,
-      tick_end: tick,
-      time_sec: timeSec(),
+        const players = [];
+        const list = parser.playerControllers;
+        if (!list || !list.length) return;
+        for (let i = 0; i < list.length; i++) {
+          const p = list[i];
+          if (!p || !p.name) continue;
+          const team = p.teamNumber;
+          if (team !== 2 && team !== 3) continue;
+          const pos = posOf(p);
+          if (!pos) continue;
+          players.push({
+            n: p.name,
+            t: teamLabel(team),
+            a: !!p.isAlive,
+            x: pos.x,
+            y: pos.y,
+          });
+        }
+        if (!players.length) return;
+        frames.push({ r: currentRound, t: tick, p: players });
+      });
     });
-  });
-
-  parser.gameEvents.on('bomb_planted', (event) => {
-    bumpTick();
-    const planter = event.player || event.useridPlayer || null;
-    bombEvents.push({
-      round: currentRound || null,
-      site: event.site ?? event.bombsite ?? null,
-      planter: planter?.name || null,
-      tick,
-      time_sec: timeSec(),
-      pos: posOf(planter),
+  } else {
+    // Só atualiza tick barato (sem playerControllers)
+    parser.on('tickend', (t) => {
+      tick = typeof t === 'number' ? t : (t && t.tick != null ? t.tick : tick);
     });
-  });
+  }
 
-  parser.gameEvents.on('player_death', (event) => {
-    bumpTick();
-    const attacker = event.attackerPlayer;
-    const victim = event.player;
-    if (!attacker || !victim) return;
+  parser.gameEvents.on('round_start', () =>
+    safe(() => {
+      bumpTick();
+      currentRound += 1;
+      inRound = true;
+      lastFrameTick = -Infinity;
+      roundStarts[currentRound] = tick;
+    })
+  );
 
-    let round = currentRound;
-    if (!round && parser.gameRules?.roundsPlayed != null) {
-      round = Number(parser.gameRules.roundsPlayed) + 1;
-    }
-    if (!round) round = null;
+  parser.gameEvents.on('round_end', (event) =>
+    safe(() => {
+      bumpTick();
+      inRound = false;
+      const winnerNum = event.winner ?? event.winnerTeam ?? null;
+      const rn = currentRound || rounds.length + 1;
+      rounds.push({
+        round: rn,
+        winner: teamLabel(winnerNum),
+        winner_num: winnerNum,
+        reason: event.reason ?? null,
+        tick_start: roundStarts[rn] ?? null,
+        tick_end: tick,
+        time_sec: timeSec(),
+      });
+    })
+  );
 
-    const hs = !!(event.headshot ?? event.isHeadshot ?? event.headshoted);
-    const startTick = round && roundStarts[round] != null ? roundStarts[round] : null;
-    const roundTimeSec =
-      startTick != null ? +(((tick - startTick) / tickrate)).toFixed(2) : null;
+  parser.gameEvents.on('bomb_planted', (event) =>
+    safe(() => {
+      bumpTick();
+      const planter = event.player || event.useridPlayer || null;
+      bombEvents.push({
+        round: currentRound || null,
+        site: event.site ?? event.bombsite ?? null,
+        planter: planter && planter.name ? planter.name : null,
+        tick,
+        time_sec: timeSec(),
+        pos: posOf(planter),
+      });
+    })
+  );
 
-    kills.push({
-      round,
-      tick,
-      time_sec: timeSec(),
-      round_time_sec: roundTimeSec,
-      assassino: attacker.name,
-      time_assassino: teamLabel(attacker.teamNumber),
-      vitima: victim.name,
-      time_vitima: teamLabel(victim.teamNumber),
-      arma: event.weapon || 'unknown',
-      headshot: hs,
-      headshot_label: hs ? 'Sim' : 'Não',
-      pos_vitima: posOf(victim),
-      pos_assassino: posOf(attacker),
-    });
-  });
+  parser.gameEvents.on('player_death', (event) =>
+    safe(() => {
+      bumpTick();
+      const attacker = event.attackerPlayer;
+      const victim = event.player;
+      if (!attacker || !victim) return;
+
+      let round = currentRound;
+      if (!round && parser.gameRules && parser.gameRules.roundsPlayed != null) {
+        round = Number(parser.gameRules.roundsPlayed) + 1;
+      }
+      if (!round) round = null;
+
+      const hs = !!(event.headshot ?? event.isHeadshot ?? event.headshoted);
+      const startTick = round && roundStarts[round] != null ? roundStarts[round] : null;
+      const roundTimeSec =
+        startTick != null ? +((tick - startTick) / tickrate).toFixed(2) : null;
+
+      kills.push({
+        round,
+        tick,
+        time_sec: timeSec(),
+        round_time_sec: roundTimeSec,
+        assassino: attacker.name,
+        time_assassino: teamLabel(attacker.teamNumber),
+        vitima: victim.name,
+        time_vitima: teamLabel(victim.teamNumber),
+        arma: event.weapon || 'unknown',
+        headshot: hs,
+        headshot_label: hs ? 'Sim' : 'Não',
+        pos_vitima: posOf(victim),
+        pos_assassino: posOf(attacker),
+      });
+    })
+  );
 
   const startedAt = Date.now();
   await parser.parseDemo(demoPath, { entities: EntityMode.ALL });
   const parseMs = Date.now() - startedAt;
 
-  if (parser.header?.mapName) mapName = parser.header.mapName;
-  else if (parser.mapName) mapName = parser.mapName;
-  else if (parser.header?.map_name) mapName = parser.header.map_name;
+  try {
+    if (parser.header && parser.header.mapName) mapName = parser.header.mapName;
+    else if (parser.mapName) mapName = parser.mapName;
+    else if (parser.header && parser.header.map_name) mapName = parser.header.map_name;
+  } catch (_) {}
 
-  if (parser.tickInterval && parser.tickInterval > 0) {
-    tickrate = Math.round(1 / parser.tickInterval);
-  } else if (parser.tickRate) {
-    tickrate = parser.tickRate;
-  }
+  try {
+    if (parser.tickInterval && parser.tickInterval > 0) {
+      tickrate = Math.round(1 / parser.tickInterval);
+    } else if (parser.tickRate) {
+      tickrate = parser.tickRate;
+    }
+  } catch (_) {}
 
-  // Recalcula tempos com tickrate final
   for (const k of kills) {
     k.time_sec = +((k.tick || 0) / tickrate).toFixed(2);
     if (k.round && roundStarts[k.round] != null) {
-      k.round_time_sec = +(((k.tick - roundStarts[k.round]) / tickrate)).toFixed(2);
+      k.round_time_sec = +((k.tick - roundStarts[k.round]) / tickrate).toFixed(2);
     }
   }
   for (const r of rounds) {
     r.time_sec = +((r.tick_end || 0) / tickrate).toFixed(2);
     if (r.tick_start != null) {
-      r.duration_sec = +(((r.tick_end - r.tick_start) / tickrate)).toFixed(2);
+      r.duration_sec = +((r.tick_end - r.tick_start) / tickrate).toFixed(2);
     }
   }
   for (const b of bombEvents) {
@@ -205,21 +230,19 @@ async function parseDemoFile(demoPath, opts = {}) {
 
   const players = {};
   for (const k of kills) {
-    players[k.assassino] = true;
-    players[k.vitima] = true;
+    if (k.assassino) players[k.assassino] = true;
+    if (k.vitima) players[k.vitima] = true;
   }
+
+  const roundNums = kills.map((k) => Number(k.round) || 0);
+  const maxRound = roundNums.length ? Math.max.apply(null, roundNums) : 0;
 
   return {
     fase: 1,
     mapa: mapName,
     tickrate,
     total_kills: kills.length,
-    total_rounds: Math.max(
-      currentRound,
-      rounds.length,
-      ...kills.map((k) => Number(k.round) || 0),
-      0
-    ),
+    total_rounds: Math.max(currentRound, rounds.length, maxRound, 0),
     players: Object.keys(players),
     kills,
     rounds,
@@ -227,8 +250,10 @@ async function parseDemoFile(demoPath, opts = {}) {
     frames,
     meta: {
       parse_ms: parseMs,
-      frame_interval_sec: frameIntervalSec,
+      frames_enabled: collectFrames,
+      frame_interval_sec: collectFrames ? intervalSec : 0,
       total_frames: frames.length,
+      max_frames: maxFrames,
     },
   };
 }

@@ -11,17 +11,18 @@ const { parseDemoFile } = require('./parse-demo');
 const app = express();
 const PORT = Number(process.env.PORT || 5055);
 const SECRET = process.env.DEMO_ANALYZER_SECRET || 'mousetrap-demo-secret';
-const FRAME_INTERVAL = Number(process.env.FRAME_INTERVAL_SEC || 1);
+// 0 = desliga frames (recomendado no Render Free). Ex: 2 = 1 frame a cada 2s
+const FRAME_INTERVAL = Number(process.env.FRAME_INTERVAL_SEC ?? 0);
+const MAX_FRAMES = Number(process.env.MAX_FRAMES || 600);
 
 const uploadDir = path.join(__dirname, '../tmp');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 const upload = multer({
   dest: uploadDir,
-  limits: { fileSize: 300 * 1024 * 1024 }, // 300MB
+  limits: { fileSize: 300 * 1024 * 1024 },
 });
 
-// Evita o Node derrubar o processo em rejeição não tratada durante parse pesado
 process.on('uncaughtException', (err) => {
   console.error('[uncaughtException]', err);
 });
@@ -29,7 +30,6 @@ process.on('unhandledRejection', (err) => {
   console.error('[unhandledRejection]', err);
 });
 
-// CORS: admin (Locaweb) sobe o .dem direto no browser → Render
 app.use((req, res, next) => {
   const origin = req.headers.origin || '';
   const allowed =
@@ -60,6 +60,15 @@ function auth(req, res, next) {
   next();
 }
 
+function sendJsonError(res, status, error, detail) {
+  if (res.headersSent) return;
+  res.status(status).json({
+    ok: false,
+    error,
+    detail: detail || undefined,
+  });
+}
+
 let parsing = false;
 const startedAt = Date.now();
 
@@ -72,63 +81,84 @@ app.get('/health', (_req, res) => {
     uptime_sec: Math.round((Date.now() - startedAt) / 1000),
     parsing,
     memory_mb: Math.round(mem.rss / 1024 / 1024),
+    frames_enabled: FRAME_INTERVAL > 0,
+    frame_interval_sec: FRAME_INTERVAL,
   });
 });
 
-app.post('/parse', auth, upload.single('demo'), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: 'Envie o arquivo .dem no campo "demo"' });
-  }
-
-  if (parsing) {
-    return res.status(429).json({
-      error: 'Parser ocupado com outra demo. Aguarde 1–2 min e tente de novo.',
-    });
-  }
-
-  const tmpPath = req.file.path;
-  const finalPath = tmpPath + '.dem';
-  parsing = true;
-  const t0 = Date.now();
-
-  // Render free pode matar requests longas — avisa o cliente para não desistir cedo
-  res.setTimeout(0);
-  req.setTimeout(0);
-
-  try {
-    fs.renameSync(tmpPath, finalPath);
-    const sizeMb = (req.file.size / 1024 / 1024).toFixed(1);
-    console.log(`[parse] start "${req.file.originalname}" (${sizeMb} MB) node=${process.version}`);
-
-    const data = await parseDemoFile(finalPath, { frameIntervalSec: FRAME_INTERVAL });
-    const ms = Date.now() - t0;
-    console.log(
-      `[parse] ok mapa=${data.mapa} kills=${data.total_kills} frames=${data.frames?.length || 0} ` +
-        `nades=${data.grenades?.length || 0} em ${ms}ms rss=${Math.round(process.memoryUsage().rss / 1024 / 1024)}MB`
-    );
-
-    res.json({ ok: true, data });
-  } catch (err) {
-    console.error('[parse] fail', err);
-    const msg = err && err.message ? err.message : String(err);
-    // Mensagem mais útil quando for OOM / Node antigo
-    let hint = msg;
-    if (/out of memory|heap|ENOMEM/i.test(msg)) {
-      hint = 'Memória esgotada no servidor do parser. Tente de novo ou use plano com mais RAM.';
-    } else if (/Cannot find module|ERR_REQUIRE_ESM|Unexpected token/i.test(msg)) {
-      hint = 'Runtime do parser incompatível. Redeploy com Node 22+ (veja Dockerfile).';
+app.post('/parse', auth, (req, res) => {
+  upload.single('demo')(req, res, async (uploadErr) => {
+    if (uploadErr) {
+      return sendJsonError(res, 400, 'Falha no upload do .dem: ' + uploadErr.message);
     }
-    res.status(500).json({ error: hint, detail: msg });
-  } finally {
-    parsing = false;
-    try { fs.unlinkSync(finalPath); } catch (_) {}
-    try { fs.unlinkSync(tmpPath); } catch (_) {}
-  }
+    if (!req.file) {
+      return sendJsonError(res, 400, 'Envie o arquivo .dem no campo "demo"');
+    }
+    if (parsing) {
+      return sendJsonError(res, 429, 'Parser ocupado. Aguarde 1–2 min e tente de novo.');
+    }
+
+    const tmpPath = req.file.path;
+    const finalPath = tmpPath + '.dem';
+    parsing = true;
+    const t0 = Date.now();
+
+    try {
+      res.setTimeout(0);
+      req.setTimeout(0);
+    } catch (_) {}
+
+    try {
+      fs.renameSync(tmpPath, finalPath);
+      const sizeMb = (req.file.size / 1024 / 1024).toFixed(1);
+      console.log(
+        `[parse] start "${req.file.originalname}" (${sizeMb} MB) ` +
+          `frames=${FRAME_INTERVAL > 0 ? FRAME_INTERVAL + 's' : 'off'} node=${process.version}`
+      );
+
+      const data = await parseDemoFile(finalPath, {
+        frameIntervalSec: FRAME_INTERVAL,
+        maxFrames: MAX_FRAMES,
+      });
+
+      const ms = Date.now() - t0;
+      const rss = Math.round(process.memoryUsage().rss / 1024 / 1024);
+      console.log(
+        `[parse] ok mapa=${data.mapa} kills=${data.total_kills} ` +
+          `frames=${data.frames.length} em ${ms}ms rss=${rss}MB`
+      );
+
+      return res.json({ ok: true, data });
+    } catch (err) {
+      console.error('[parse] fail', err);
+      const msg = err && err.message ? err.message : String(err);
+      let hint = msg;
+      if (/out of memory|heap|ENOMEM|JavaScript heap/i.test(msg)) {
+        hint =
+          'Memória esgotada no Render Free. Mantenha FRAME_INTERVAL_SEC=0 ou suba o plano.';
+      }
+      return sendJsonError(res, 500, hint, msg);
+    } finally {
+      parsing = false;
+      try {
+        fs.unlinkSync(finalPath);
+      } catch (_) {}
+      try {
+        fs.unlinkSync(tmpPath);
+      } catch (_) {}
+    }
+  });
+});
+
+// Sempre JSON em erros do Express (evita HTML "Internal Server Error")
+app.use((err, _req, res, _next) => {
+  console.error('[express]', err);
+  sendJsonError(res, 500, err.message || 'Internal Server Error');
 });
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`MouseTrap Demo Analyzer em 0.0.0.0:${PORT} (node ${process.version})`);
-  if (!process.version.startsWith('v22') && !process.version.startsWith('v23') && !process.version.startsWith('v24')) {
-    console.warn('[warn] cs2parser exige Node >= 22. Versão atual:', process.version);
-  }
+  console.log(
+    `MouseTrap Demo Analyzer em 0.0.0.0:${PORT} (node ${process.version}) ` +
+      `frames=${FRAME_INTERVAL > 0 ? FRAME_INTERVAL + 's' : 'OFF'}`
+  );
 });

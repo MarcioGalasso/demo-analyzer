@@ -11,10 +11,11 @@ COPY .env.example ./
 
 ENV NODE_ENV=production
 ENV PORT=5055
-# 1 frame/s — bom equilíbrio tamanho x view 2D
-ENV FRAME_INTERVAL_SEC=1
+# 0 = sem trajetória contínua (estável no Free). Kills ainda trazem posições.
+# Para calor de movimento depois: FRAME_INTERVAL_SEC=2 e plano com mais RAM.
+ENV FRAME_INTERVAL_SEC=0
+ENV MAX_FRAMES=600
 
 EXPOSE 5055
 
-# Limite de heap um pouco maior (Render free ~512MB; evita crash cedo)
-CMD ["node", "--max-old-space-size=460", "src/server.js"]
+CMD ["node", "--max-old-space-size=400", "src/server.js"]
