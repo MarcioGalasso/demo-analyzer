@@ -92,12 +92,27 @@ async function parseDemoFile(demoPath, opts = {}) {
           if (team !== 2 && team !== 3) continue;
           const pos = posOf(p);
           if (!pos) continue;
+          let yaw = null;
+          try {
+            const ea = p.eyeAngles;
+            if (ea && typeof ea.yaw === 'number' && Number.isFinite(ea.yaw)) {
+              yaw = Math.round(ea.yaw);
+            }
+          } catch (_) {}
+          let hp = null;
+          try {
+            if (typeof p.health === 'number' && Number.isFinite(p.health)) {
+              hp = Math.max(0, Math.min(100, Math.round(p.health)));
+            }
+          } catch (_) {}
           players.push({
             n: p.name,
             t: teamLabel(team),
             a: !!p.isAlive,
             x: pos.x,
             y: pos.y,
+            yaw: yaw,
+            hp: hp,
           });
         }
         if (!players.length) return;
