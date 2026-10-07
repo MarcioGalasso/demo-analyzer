@@ -29,7 +29,7 @@ async function parseDemoFile(demoPath, opts = {}) {
   const roundStarts = {};
   const lastShotTickByNick = new Map();
   const MAX_SHOTS = Math.max(1000, Number(opts.maxShots) || 12000);
-  const SHOT_GAP_TICKS = 4; // ~60ms @64 — evita milhares de tiros por spray
+  const SHOT_GAP_TICKS = 3; // ~47ms @64 — AK (~100ms) ainda 1 bala/tiro; evita flood
 
   let currentRound = 0;
   let tick = 0;
@@ -200,6 +200,26 @@ async function parseDemoFile(demoPath, opts = {}) {
           } catch (_) {
             util = { he: 0, fl: 0, sm: 0, mo: 0, de: 0 };
           }
+          let money = null;
+          let armor = null;
+          let helm = false;
+          let kit = false;
+          try {
+            if (typeof p.money === 'number' && Number.isFinite(p.money)) {
+              money = Math.max(0, Math.round(p.money));
+            }
+          } catch (_) {}
+          try {
+            if (typeof p.armor === 'number' && Number.isFinite(p.armor)) {
+              armor = Math.max(0, Math.min(100, Math.round(p.armor)));
+            }
+          } catch (_) {}
+          try {
+            helm = !!p.hasHelmet;
+          } catch (_) {}
+          try {
+            kit = !!p.hasDefuser;
+          } catch (_) {}
           players.push({
             n: p.name,
             t: teamLabel(team),
@@ -210,6 +230,10 @@ async function parseDemoFile(demoPath, opts = {}) {
             hp: hp,
             w: weapon,
             u: util,
+            $: money,
+            ar: armor,
+            hel: helm ? 1 : 0,
+            kit: kit ? 1 : 0,
           });
         }
         if (!players.length) return;
