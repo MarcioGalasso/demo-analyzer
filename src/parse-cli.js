@@ -30,18 +30,18 @@ async function main() {
   }
 
   const sizeMb = (fs.statSync(abs).size / 1024 / 1024).toFixed(1);
-  // Default 1s — necessário para mapa de calor / movimento (no Render Free continua 0)
-  const frameInterval = Number(process.env.FRAME_INTERVAL_SEC ?? 1);
+  // 0.5s = replay mais fluido; Render Free pode usar 1
+  const frameInterval = Number(process.env.FRAME_INTERVAL_SEC ?? 0.5);
 
   console.log('Node', process.version);
   console.log('Demo:', abs, `(${sizeMb} MB)`);
-  console.log('Frames:', frameInterval > 0 ? `a cada ${frameInterval}s` : 'OFF (recomendado)');
+  console.log('Frames:', frameInterval > 0 ? `a cada ${frameInterval}s` : 'OFF');
   console.log('Parseando…');
 
   const t0 = Date.now();
   const data = await parseDemoFile(abs, {
     frameIntervalSec: frameInterval,
-    maxFrames: Number(process.env.MAX_FRAMES || 2500),
+    maxFrames: Number(process.env.MAX_FRAMES || 5000),
   });
   const ms = Date.now() - t0;
 
@@ -53,7 +53,7 @@ async function main() {
   console.log('Mapa:', data.mapa);
   console.log('Kills:', data.total_kills, '| Rounds:', data.total_rounds);
   console.log('Players:', (data.players || []).join(', '));
-  console.log('Frames:', (data.frames || []).length);
+  console.log('Frames:', (data.frames || []).length, '| Shots:', (data.shots || []).length);
   console.log('Salvo em:', out);
   console.log('Tamanho JSON:', (fs.statSync(out).size / 1024 / 1024).toFixed(2), 'MB');
 }
