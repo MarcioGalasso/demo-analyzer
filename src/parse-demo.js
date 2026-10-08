@@ -44,6 +44,10 @@ async function parseDemoFile(demoPath, opts = {}) {
   let lastFrameTick = -Infinity;
   let inRound = false;
   let intervalTicks = 32; // atualizado depois
+  let lastRoundStartTick = -Infinity;
+  const roundEnded = new Set(); // evita double round_end
+  // Motivos que NÃO encerram round de verdade (cortavam o replay no meio)
+  const IGNORE_ROUND_END = new Set([-1, 0, 16]); // INVALID, STILL_IN_PROGRESS, GAME_COMMENCING
 
   const teamLabel = (n) => {
     if (n === 2) return 'TR';
@@ -287,12 +291,26 @@ async function parseDemoFile(demoPath, opts = {}) {
     });
   }
 
+  const isWarmup = () => {
+    try {
+      return !!(parser.gameRules && parser.gameRules.isWarmup);
+    } catch (_) {
+      return false;
+    }
+  };
+
   parser.gameEvents.on('round_start', () =>
     safe(() => {
       bumpTick();
+      if (isWarmup()) return;
+      // debounce: round_start duplicado no mesmo segundo
+      if (lastRoundStartTick >= 0 && tick - lastRoundStartTick < Math.max(16, Math.round((tickrate || 64) * 0.8))) {
+        return;
+      }
       currentRound += 1;
       inRound = true;
       lastFrameTick = -Infinity;
+      lastRoundStartTick = tick;
       roundStarts[currentRound] = tick;
     })
   );
@@ -300,18 +318,36 @@ async function parseDemoFile(demoPath, opts = {}) {
   parser.gameEvents.on('round_end', (event) =>
     safe(() => {
       bumpTick();
-      inRound = false;
+      if (isWarmup()) return;
+      const reason = event.reason != null ? Number(event.reason) : null;
+      if (reason != null && IGNORE_ROUND_END.has(reason)) return;
       const winnerNum = event.winner ?? event.winnerTeam ?? null;
       const rn = currentRound || rounds.length + 1;
+      if (!rn || roundEnded.has(rn)) return;
+      roundEnded.add(rn);
+      // NÃO desliga inRound aqui — senão para de gravar frames no meio
+      // (replay cortava em ~40s com gente viva). Frames seguem até o próximo round_start.
       rounds.push({
         round: rn,
         winner: teamLabel(winnerNum),
         winner_num: winnerNum,
         reason: event.reason ?? null,
         tick_start: roundStarts[rn] ?? null,
-        tick_end: tick,
+        tick_end: tick, // momento da decisão; pós-processo estende até o próximo start
+        tick_decision: tick,
         time_sec: timeSec(),
       });
+    })
+  );
+
+  parser.gameEvents.on('round_officially_ended', () =>
+    safe(() => {
+      bumpTick();
+      if (!rounds.length) return;
+      const last = rounds[rounds.length - 1];
+      if (last && (last.tick_official == null || tick > last.tick_official)) {
+        last.tick_official = tick;
+      }
     })
   );
 
@@ -620,9 +656,33 @@ async function parseDemoFile(demoPath, opts = {}) {
       k.round_time_sec = +((k.tick - roundStarts[k.round]) / tickrate).toFixed(2);
     }
   }
+  // Limite do round no replay = início do próximo (não o round_end precoce)
+  for (let i = 0; i < rounds.length; i++) {
+    const r = rounds[i];
+    const next = rounds[i + 1];
+    if (next && next.tick_start != null && (r.tick_end == null || next.tick_start > r.tick_end)) {
+      r.tick_end = next.tick_start;
+    } else if (r.tick_official != null && (r.tick_end == null || r.tick_official > r.tick_end)) {
+      r.tick_end = r.tick_official;
+    }
+  }
+  // Estende tick_end até o último frame daquele round (se frames passaram do decision)
+  const lastFrameTickByRound = {};
+  for (const f of frames) {
+    const rn = Number(f.r) || 0;
+    if (!rn) continue;
+    const t = Number(f.t) || 0;
+    if (lastFrameTickByRound[rn] == null || t > lastFrameTickByRound[rn]) {
+      lastFrameTickByRound[rn] = t;
+    }
+  }
   for (const r of rounds) {
+    const lf = lastFrameTickByRound[r.round];
+    if (lf != null && (r.tick_end == null || lf > r.tick_end)) {
+      r.tick_end = lf;
+    }
     r.time_sec = +((r.tick_end || 0) / tickrate).toFixed(2);
-    if (r.tick_start != null) {
+    if (r.tick_start != null && r.tick_end != null) {
       r.duration_sec = +((r.tick_end - r.tick_start) / tickrate).toFixed(2);
     }
   }
