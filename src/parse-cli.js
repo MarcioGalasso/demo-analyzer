@@ -53,7 +53,11 @@ async function main() {
   console.log('Mapa:', data.mapa);
   console.log('Kills:', data.total_kills, '| Rounds:', data.total_rounds);
   console.log('Players:', (data.players || []).join(', '));
-  console.log('Frames:', (data.frames || []).length, '| Shots:', (data.shots || []).length);
+  console.log(
+    'Frames:', (data.frames || []).length,
+    '| Shots:', (data.shots || []).length,
+    '| Grenades:', (data.grenades || []).length
+  );
   console.log('Salvo em:', out);
   console.log('Tamanho JSON:', (fs.statSync(out).size / 1024 / 1024).toFixed(2), 'MB');
 }

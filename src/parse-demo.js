@@ -26,10 +26,16 @@ async function parseDemoFile(demoPath, opts = {}) {
   const bombEvents = [];
   const frames = [];
   const shots = [];
+  const grenades = [];
+  const pendingGrenades = [];
+  let grenadeSeq = 0;
   const roundStarts = {};
   const lastShotTickByNick = new Map();
   const MAX_SHOTS = Math.max(1000, Number(opts.maxShots) || 12000);
   const SHOT_GAP_TICKS = 3; // ~47ms @64 — AK (~100ms) ainda 1 bala/tiro; evita flood
+  const MAX_GRENADES = Math.max(200, Number(opts.maxGrenades) || 800);
+  // duração padrão (s) até expire real chegar
+  const GRENADE_DEFAULT_DUR = { smoke: 18, molotov: 7, decoy: 15, flash: 0.55, he: 0.55 };
 
   let currentRound = 0;
   let tick = 0;
@@ -360,6 +366,236 @@ async function parseDemoFile(demoPath, opts = {}) {
     })
   );
 
+  /* ---- Granadas (trajetória + efeito no replay) ---- */
+  const grenadeTypeFromWeapon = (w) => {
+    const s = String(w || '').toLowerCase();
+    if (s.indexOf('smoke') >= 0) return 'smoke';
+    if (s.indexOf('molotov') >= 0 || s.indexOf('incendiary') >= 0 || s.indexOf('incgrenade') >= 0) return 'molotov';
+    if (s.indexOf('flash') >= 0) return 'flash';
+    if (s.indexOf('hegrenade') >= 0 || s === 'he' || s.indexOf('he_grenade') >= 0) return 'he';
+    if (s.indexOf('decoy') >= 0) return 'decoy';
+    return null;
+  };
+
+  const findPendingGrenade = (type, event) => {
+    const eid = event.entityid != null ? event.entityid : null;
+    const nick = event.player && event.player.name ? event.player.name : null;
+    if (eid != null) {
+      for (let i = pendingGrenades.length - 1; i >= 0; i--) {
+        const g = pendingGrenades[i];
+        if (g.t1 == null && g.type === type && g.eid === eid) return g;
+      }
+    }
+    if (nick) {
+      for (let i = pendingGrenades.length - 1; i >= 0; i--) {
+        const g = pendingGrenades[i];
+        if (g.t1 == null && g.type === type && g.n === nick) return g;
+      }
+    }
+    for (let i = pendingGrenades.length - 1; i >= 0; i--) {
+      const g = pendingGrenades[i];
+      if (g.t1 == null && g.type === type) return g;
+    }
+    return null;
+  };
+
+  const findRecentLanded = (type, x, y, withinTicks) => {
+    const win = withinTicks != null ? withinTicks : Math.round((tickrate || 64) * 2);
+    let best = null;
+    let bestD = Infinity;
+    for (let i = grenades.length - 1; i >= 0; i--) {
+      const cand = grenades[i];
+      if (cand.type !== type || cand.t1 == null) continue;
+      if (Math.abs(tick - cand.t1) > win) continue;
+      const dx = (cand.x1 != null ? cand.x1 : cand.x0) - x;
+      const dy = (cand.y1 != null ? cand.y1 : cand.y0) - y;
+      const d = dx * dx + dy * dy;
+      if (d < bestD) {
+        bestD = d;
+        best = cand;
+      }
+    }
+    if (best && bestD < 280 * 280) return best;
+    return null;
+  };
+
+  const landGrenade = (type, event) => {
+    if (grenades.length >= MAX_GRENADES && !findPendingGrenade(type, event)) return;
+    const x = roundCoord(Number(event.x));
+    const y = roundCoord(Number(event.y));
+    if (x == null || y == null) return;
+    let g = findPendingGrenade(type, event);
+    // evita duplicata molotov_detonate + inferno_startburn
+    if (!g) g = findRecentLanded(type, x, y);
+    const pl = event.player;
+    if (!g) {
+      g = {
+        id: ++grenadeSeq,
+        type,
+        r: currentRound || null,
+        n: pl && pl.name ? pl.name : '?',
+        team: pl ? teamLabel(pl.teamNumber) : 'UNK',
+        t0: tick,
+        t1: tick,
+        t2: null,
+        x0: x,
+        y0: y,
+        x1: x,
+        y1: y,
+        eid: event.entityid != null ? event.entityid : null,
+      };
+      grenades.push(g);
+    } else {
+      g.t1 = tick;
+      g.x1 = x;
+      g.y1 = y;
+      if (g.x0 == null) {
+        g.x0 = x;
+        g.y0 = y;
+      }
+      if (event.entityid != null) g.eid = event.entityid;
+      if (pl && pl.name && (!g.n || g.n === '?')) {
+        g.n = pl.name;
+        g.team = teamLabel(pl.teamNumber);
+      }
+      const ix = pendingGrenades.indexOf(g);
+      if (ix >= 0) pendingGrenades.splice(ix, 1);
+    }
+    const dur = GRENADE_DEFAULT_DUR[type];
+    if (dur != null && g.t2 == null) {
+      g.t2 = tick + Math.round(dur * (tickrate || 64));
+    }
+  };
+
+  const expireGrenade = (type, event) => {
+    const eid = event.entityid != null ? event.entityid : null;
+    const x = roundCoord(Number(event.x));
+    const y = roundCoord(Number(event.y));
+    let g = null;
+    if (eid != null) {
+      for (let i = grenades.length - 1; i >= 0; i--) {
+        if (grenades[i].type === type && grenades[i].eid === eid) {
+          g = grenades[i];
+          break;
+        }
+      }
+    }
+    if (!g && x != null && y != null) {
+      let best = null;
+      let bestD = Infinity;
+      for (let i = grenades.length - 1; i >= 0; i--) {
+        const cand = grenades[i];
+        if (cand.type !== type || cand.t1 == null) continue;
+        const dx = (cand.x1 || 0) - x;
+        const dy = (cand.y1 || 0) - y;
+        const d = dx * dx + dy * dy;
+        if (d < bestD) {
+          bestD = d;
+          best = cand;
+        }
+      }
+      if (best && bestD < 200 * 200) g = best;
+    }
+    if (!g) return;
+    g.t2 = tick;
+    if (x != null && y != null) {
+      g.x1 = x;
+      g.y1 = y;
+    }
+  };
+
+  parser.gameEvents.on('grenade_thrown', (event) =>
+    safe(() => {
+      bumpTick();
+      if (grenades.length >= MAX_GRENADES) return;
+      const type = grenadeTypeFromWeapon(event.weapon);
+      if (!type) return;
+      const pl = event.player;
+      if (!pl || !pl.name) return;
+      const pos = posOf(pl);
+      if (!pos || pos.x == null || pos.y == null) return;
+      const g = {
+        id: ++grenadeSeq,
+        type,
+        r: currentRound || null,
+        n: pl.name,
+        team: teamLabel(pl.teamNumber),
+        t0: tick,
+        t1: null,
+        t2: null,
+        x0: pos.x,
+        y0: pos.y,
+        x1: null,
+        y1: null,
+        eid: event.entityid != null ? event.entityid : (event.projectileHandle != null ? event.projectileHandle : null),
+      };
+      grenades.push(g);
+      pendingGrenades.push(g);
+    })
+  );
+
+  parser.gameEvents.on('smokegrenade_detonate', (event) =>
+    safe(() => {
+      bumpTick();
+      landGrenade('smoke', event);
+    })
+  );
+  parser.gameEvents.on('smokegrenade_expired', (event) =>
+    safe(() => {
+      bumpTick();
+      expireGrenade('smoke', event);
+    })
+  );
+  parser.gameEvents.on('flashbang_detonate', (event) =>
+    safe(() => {
+      bumpTick();
+      landGrenade('flash', event);
+    })
+  );
+  parser.gameEvents.on('hegrenade_detonate', (event) =>
+    safe(() => {
+      bumpTick();
+      landGrenade('he', event);
+    })
+  );
+  parser.gameEvents.on('molotov_detonate', (event) =>
+    safe(() => {
+      bumpTick();
+      landGrenade('molotov', event);
+    })
+  );
+  parser.gameEvents.on('inferno_startburn', (event) =>
+    safe(() => {
+      bumpTick();
+      // reforça pouso do molotov se detonate veio sem pos boa
+      landGrenade('molotov', event);
+    })
+  );
+  parser.gameEvents.on('inferno_expire', (event) =>
+    safe(() => {
+      bumpTick();
+      expireGrenade('molotov', event);
+    })
+  );
+  parser.gameEvents.on('inferno_extinguish', (event) =>
+    safe(() => {
+      bumpTick();
+      expireGrenade('molotov', event);
+    })
+  );
+  parser.gameEvents.on('decoy_started', (event) =>
+    safe(() => {
+      bumpTick();
+      landGrenade('decoy', event);
+    })
+  );
+  parser.gameEvents.on('decoy_detonate', (event) =>
+    safe(() => {
+      bumpTick();
+      expireGrenade('decoy', event);
+    })
+  );
+
   const startedAt = Date.now();
   await parser.parseDemo(demoPath, { entities: EntityMode.ALL });
   const parseMs = Date.now() - startedAt;
@@ -399,6 +635,33 @@ async function parseDemoFile(demoPath, opts = {}) {
   for (const s of shots) {
     s.s = +((s.t || 0) / tickrate).toFixed(2);
   }
+  const roundStartEntries = Object.keys(roundStarts)
+    .map((r) => ({ r: Number(r), t: Number(roundStarts[r]) }))
+    .sort((a, b) => a.t - b.t);
+
+  for (const g of grenades) {
+    // throw sem pouso: assume pouso no fim do round / +2s
+    if (g.t1 == null) {
+      g.t1 = g.t0 + Math.round(1.6 * tickrate);
+      g.x1 = g.x0;
+      g.y1 = g.y0;
+    }
+    if (g.t2 == null && (g.type === 'smoke' || g.type === 'molotov' || g.type === 'decoy')) {
+      const dur = GRENADE_DEFAULT_DUR[g.type] || 10;
+      g.t2 = g.t1 + Math.round(dur * tickrate);
+    }
+    if (g.t2 == null && (g.type === 'flash' || g.type === 'he')) {
+      g.t2 = g.t1 + Math.round(0.55 * tickrate);
+    }
+    if (!g.r && roundStartEntries.length) {
+      let assigned = roundStartEntries[0].r;
+      for (let i = 0; i < roundStartEntries.length; i++) {
+        if (roundStartEntries[i].t <= (g.t0 || 0)) assigned = roundStartEntries[i].r;
+      }
+      g.r = assigned;
+    }
+    delete g.eid; // só usado no match interno
+  }
 
   fillMissingRounds(kills);
 
@@ -423,6 +686,7 @@ async function parseDemoFile(demoPath, opts = {}) {
     bomb_events: bombEvents,
     frames,
     shots,
+    grenades,
     meta: {
       parse_ms: parseMs,
       frames_enabled: collectFrames,
@@ -431,6 +695,8 @@ async function parseDemoFile(demoPath, opts = {}) {
       max_frames: maxFrames,
       total_shots: shots.length,
       max_shots: MAX_SHOTS,
+      total_grenades: grenades.length,
+      max_grenades: MAX_GRENADES,
     },
   };
 }

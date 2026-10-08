@@ -141,7 +141,8 @@ app.post('/parse', auth, (req, res) => {
       const rss = Math.round(process.memoryUsage().rss / 1024 / 1024);
       console.log(
         `[parse] ok mapa=${data.mapa} kills=${data.total_kills} ` +
-          `frames=${data.frames.length} em ${ms}ms rss=${rss}MB`
+          `frames=${data.frames.length} shots=${(data.shots || []).length} ` +
+          `grenades=${(data.grenades || []).length} em ${ms}ms rss=${rss}MB`
       );
 
       return res.json({ ok: true, data });
