@@ -28,6 +28,7 @@ async function parseDemoFile(demoPath, opts = {}) {
   const shots = [];
   const grenades = [];
   const pendingGrenades = [];
+  const playerClans = {}; // nick -> { clan, team }
   let grenadeSeq = 0;
   const roundStarts = {};
   const lastShotTickByNick = new Map();
@@ -229,6 +230,12 @@ async function parseDemoFile(demoPath, opts = {}) {
           } catch (_) {}
           try {
             kit = !!p.hasDefuser;
+          } catch (_) {}
+          try {
+            const clan = String(p.clanName || p.teamName || '').trim();
+            if (clan && p.name) {
+              playerClans[p.name] = { clan: clan, team: teamLabel(team) };
+            }
           } catch (_) {}
           players.push({
             n: p.name,
@@ -741,6 +748,7 @@ async function parseDemoFile(demoPath, opts = {}) {
     total_kills: kills.length,
     total_rounds: Math.max(currentRound, rounds.length, maxRound, 0),
     players: Object.keys(players),
+    player_clans: playerClans,
     kills,
     rounds,
     bomb_events: bombEvents,
