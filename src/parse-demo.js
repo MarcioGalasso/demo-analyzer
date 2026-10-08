@@ -35,7 +35,7 @@ async function parseDemoFile(demoPath, opts = {}) {
   const SHOT_GAP_TICKS = 3; // ~47ms @64 — AK (~100ms) ainda 1 bala/tiro; evita flood
   const MAX_GRENADES = Math.max(200, Number(opts.maxGrenades) || 800);
   // duração padrão (s) até expire real chegar
-  const GRENADE_DEFAULT_DUR = { smoke: 18, molotov: 7, decoy: 15, flash: 0.55, he: 0.55 };
+  const GRENADE_DEFAULT_DUR = { smoke: 20, molotov: 7, decoy: 15, flash: 0.55, he: 0.55 };
 
   let currentRound = 0;
   let tick = 0;
